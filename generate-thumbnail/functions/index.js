@@ -74,7 +74,7 @@ exports.generateThumbnail = functions.storage.object().onFinalize((object) => {
   // Create the temp directory where the storage file will be downloaded.
   return mkdirp(tempLocalDir).then(() => {
     // Download file from bucket.
-    return file.download({destination: tempLocalFile});
+    return file.download({destination: tempLocalFile}); 
   }).then(() => {
     console.log('The file has been downloaded to', tempLocalFile);
     // Generate a thumbnail using ImageMagick.
@@ -104,6 +104,6 @@ exports.generateThumbnail = functions.storage.object().onFinalize((object) => {
     const thumbFileUrl = thumbResult[0];
     const fileUrl = originalResult[0];
     // Add the URLs to the Database
-    return admin.database().ref('images').push({path: fileUrl, thumbnail: thumbFileUrl});
+    return admin.database().ref('users/'+ fileDir.split("/")[0]).push({path: fileUrl, thumbnail: thumbFileUrl});
   }).then(() => console.log('Thumbnail URLs saved to database.'));
 });
